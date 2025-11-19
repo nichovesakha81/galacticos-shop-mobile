@@ -1,3 +1,4 @@
+// main.dart
 import 'package:flutter/material.dart';
 import 'package:galacticos_shop/screens/login.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
