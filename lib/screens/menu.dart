@@ -13,6 +13,7 @@ class MyHomePage extends StatelessWidget {
     ItemHomepage("All Products", Icons.list, Colors.blue),
     ItemHomepage("My Products", Icons.inventory, Colors.green),
     ItemHomepage("Create Product", Icons.add_shopping_cart, Colors.red),
+    ItemHomepage("Logout", Icons.logout, Colors.orange),
   ];
 
   @override

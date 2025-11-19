@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:galacticos_shop/screens/menu.dart'; // Import halaman menu
-import 'package:galacticos_shop/screens/product_form.dart'; // Import halaman form
+import 'package:galacticos_shop/screens/menu.dart';
+import 'package:galacticos_shop/screens/product_form.dart';
+import 'package:galacticos_shop/screens/product_entry_list.dart';
+import 'package:galacticos_shop/screens/my_product_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -56,6 +58,31 @@ class LeftDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ProductFormPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.list_alt_outlined),
+            title: const Text('All Products'),
+            onTap: () {
+              // route to product list page
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductEntryListPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.inventory_2_outlined),
+            title: const Text('My Products'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MyProductListPage(),
                 ),
               );
             },

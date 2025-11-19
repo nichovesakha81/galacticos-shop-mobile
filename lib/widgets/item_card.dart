@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:galacticos_shop/screens/product_form.dart';
+import 'package:galacticos_shop/screens/product_entry_list.dart';
+import 'package:galacticos_shop/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:galacticos_shop/screens/my_product_list.dart';
 
 class InfoCard extends StatelessWidget {
   // Card informasi yang menampilkan title dan content.
 
-  final String title; // Judul kartu.
-  final String content; // Isi kartu.
+  final String title;
+  final String content;
 
   const InfoCard({super.key, required this.title, required this.content});
 
@@ -50,6 +55,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       // Mengambil warna dari properti 'color' milik item.
       color: item.color,
@@ -58,7 +64,7 @@ class ItemCard extends StatelessWidget {
 
       child: InkWell(
         // Action ketika card ditekan.
-        onTap: () {
+        onTap: () async {
           // Menampilkan pesan SnackBar saat kartu ditekan.
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -69,10 +75,46 @@ class ItemCard extends StatelessWidget {
             );
           if (item.name == "Create Product") {
             Navigator.push(
-              // Pakai push biasa
               context,
               MaterialPageRoute(builder: (context) => const ProductFormPage()),
             );
+          } else if (item.name == "All Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProductEntryListPage(),
+              ),
+            );
+          } else if (item.name == "My Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MyProductListPage(),
+              ),
+            );
+          } else if (item.name == "Logout") {
+            const String url = "http://127.0.0.1:8000/auth/logout/";
+            final response = await request.logout(url);
+
+            String message = response["message"];
+            if (context.mounted) {
+              if (response['status']) {
+                String uname = response["username"];
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("$message See you again, $uname.")),
+                );
+                // navigasi kembali ke halaman Login
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(message)));
+              }
+            }
           }
         },
         // Container untuk menyimpan Icon dan Text
